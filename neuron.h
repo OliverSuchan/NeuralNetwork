@@ -25,7 +25,9 @@ protected:
     Connections m_connectionsForward;
     Connections m_connectionsBackwards;
     InstanceValue m_instVal;
-    static constexpr double LEARN_RATE = 0.5;
+    double m_prevDeltaWeight;
+    static double LEARN_RATE;
+    static constexpr double MOMENTUM = 0.4;
     virtual double getErrorSignal(double = std::numeric_limits<double>::signaling_NaN());
     Neuron();
 

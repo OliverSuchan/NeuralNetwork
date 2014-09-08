@@ -18,6 +18,7 @@ private:
     Neurons m_neurons;
     InputNeurons m_inputNeurons;
     OutputNeurons m_outputNeurons;
+    long m_steps;
 
 public:
     NeuralNetwork();

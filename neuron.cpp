@@ -1,5 +1,7 @@
 #include "neuron.h"
 
+double Neuron::LEARN_RATE = 1.0;
+
 double Neuron::evaluate()
 {
     double net = getNet();
@@ -11,7 +13,9 @@ void Neuron::optimize()
     for(auto backCons : m_connectionsBackwards)
     {
         double e  =  getErrorSignal();
-        backCons->m_weight += LEARN_RATE * e * evaluate();
+        double deltaWeight = LEARN_RATE * e * evaluate();
+        backCons->m_weight += deltaWeight + MOMENTUM * m_prevDeltaWeight;
+        m_prevDeltaWeight = deltaWeight;
     }
 }
 
@@ -27,13 +31,15 @@ double Neuron::getErrorSignal(double p_value)
 
 Neuron::Neuron()
     : m_connectionsForward(),
-      m_connectionsBackwards()
+      m_connectionsBackwards(),
+      m_prevDeltaWeight(.0)
 {
 }
 
 Neuron::Neuron(double p_thresholded)
     : m_connectionsForward(),
-      m_connectionsBackwards()
+      m_connectionsBackwards(),
+      m_prevDeltaWeight(.0)
 {
     m_instVal.m_thresholded = p_thresholded;
 }

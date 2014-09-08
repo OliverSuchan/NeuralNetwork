@@ -5,7 +5,9 @@ void OutputNeuron::optimize()
     for(auto con : m_connectionsBackwards)
     {
         double e = getErrorSignal(m_output);
-        con->m_weight += LEARN_RATE * e * evaluate();
+        double deltaWeight = LEARN_RATE * e * evaluate();
+        con->m_weight += deltaWeight * MOMENTUM * m_prevDeltaWeight;
+        m_prevDeltaWeight = deltaWeight;
     }
 }
 

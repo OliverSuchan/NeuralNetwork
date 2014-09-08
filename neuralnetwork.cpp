@@ -1,7 +1,8 @@
 #include "neuralnetwork.h"
 
 NeuralNetwork::NeuralNetwork()
-    : m_neurons()
+    : m_neurons(),
+      m_steps(0)
 {
 }
 
@@ -47,10 +48,13 @@ bool NeuralNetwork::connectNeurons(std::size_t p_firstNeuronIndex, std::size_t p
 
 void NeuralNetwork::optimize()
 {
+    m_steps = 0;
     for(int i = 0; i < 10; i++)
     {
         for(auto n : m_neurons)
             n->optimize();
+        ++m_steps;
+        Neuron::LEARN_RATE = 1.0 / m_steps;
         std::cout << getError() << std::endl;
     }
 }
